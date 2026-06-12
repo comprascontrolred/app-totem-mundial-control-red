@@ -2,7 +2,7 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1080, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CONTROL RED · Tomá el Control del Mundial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,21 +22,35 @@
   *{ margin:0; padding:0; box-sizing:border-box; }
 
   html, body{
-    width: 1080px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: var(--azul-oscuro);
     color: var(--blanco);
     font-family: 'Barlow Condensed', sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     scroll-behavior: smooth;
+  }
+
+  body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Lienzo fijo de 1080x1920 que se escala para entrar en la pantalla del totem */
+  .totem-scale{
+    position: relative;
+    width: 1080px;
+    height: 1920px;
+    flex-shrink: 0;
+    transform-origin: center center;
   }
 
   /* ============ FONDO ANIMADO (FIJO) ============ */
   .stage{
-    position: fixed;
+    position: absolute;
     inset: 0;
-    width: 1080px;
-    height: 1920px;
-    margin: 0 auto;
     z-index: -3;
     background:
       radial-gradient(circle at 20% 15%, rgba(0,200,255,0.14) 0%, transparent 35%),
@@ -186,11 +200,8 @@
 
   /* Confeti */
   .confeti-capa{
-    position: fixed;
+    position: absolute;
     inset: 0;
-    width: 1080px;
-    height: 1920px;
-    margin: 0 auto;
     z-index: -1;
     pointer-events: none;
     overflow: hidden;
@@ -210,7 +221,7 @@
 
   /* Bandera argentina ondeando, esquina superior derecha */
   .bandera-wrap{
-    position: fixed;
+    position: absolute;
     top: -16px;
     right: -24px;
     width: 200px;
@@ -575,11 +586,8 @@
 
   /* ============ MODAL ============ */
   .modal-overlay{
-    position: fixed;
+    position: absolute;
     inset: 0;
-    width: 1080px;
-    height: 1920px;
-    margin: 0 auto;
     background: rgba(2,6,24,0.85);
     backdrop-filter: blur(6px);
     display: flex;
@@ -731,12 +739,10 @@
     flex: 0 0 auto;
   }
 
-  @media (max-width: 1080px){
-    html, body, .stage, .confeti-capa, .contenido, .modal-overlay{ width: 100vw; }
-  }
 </style>
 </head>
 <body>
+<div class="totem-scale" id="totem-scale">
 
   <!-- Fondo animado fijo: estadio nocturno + flashes -->
   <div class="stage">
@@ -1248,7 +1254,21 @@
       capa.appendChild(pieza);
     }
   })();
+
+  // ===================== ESCALADO PARA TOTEM =====================
+  // Escala el lienzo de 1080x1920 para que entre completo en cualquier
+  // pantalla (totem vertical), manteniendo la proporción 9:16.
+  function ajustarEscalaTotem(){
+    const lienzo = document.getElementById('totem-scale');
+    const escala = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+    lienzo.style.transform = 'scale(' + escala + ')';
+  }
+
+  ajustarEscalaTotem();
+  window.addEventListener('resize', ajustarEscalaTotem);
+  window.addEventListener('orientationchange', ajustarEscalaTotem);
 </script>
+</div>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                         
