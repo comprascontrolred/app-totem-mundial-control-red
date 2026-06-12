@@ -2,7 +2,7 @@
 <html lang="es-AR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1080, initial-scale=1.0">
+<meta name="viewport" content="width=1080, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>CONTROL RED · Tomá el Control del Mundial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,27 +44,19 @@
       linear-gradient(180deg, #050E38 0%, #0A1E6E 45%, #050B26 100%);
     overflow: hidden;
   }
-  /* Textura de puntitos: confeti flotando + luces parpadeando en todo el fondo */
+  /* Textura de puntitos: luces parpadeando en todo el fondo (versión liviana para totem) */
   .stage::before{
     content: '';
     position: absolute;
-    inset: -10% -10%;
-    width: 120%;
-    height: 120%;
+    inset: 0;
     background-image:
-      radial-gradient(circle, rgba(255,255,255,0.22) 1.6px, transparent 1.8px),
-      radial-gradient(circle, rgba(0,200,255,0.2) 1.6px, transparent 1.8px),
-      radial-gradient(circle, rgba(255,215,0,0.18) 1.6px, transparent 1.8px);
+      radial-gradient(circle, rgba(255,255,255,0.16) 1.6px, transparent 1.8px),
+      radial-gradient(circle, rgba(0,200,255,0.14) 1.6px, transparent 1.8px),
+      radial-gradient(circle, rgba(255,215,0,0.13) 1.6px, transparent 1.8px);
     background-size: 64px 64px, 86px 86px, 108px 108px;
     background-position: 0 0, 24px 34px, 48px 12px;
-    mix-blend-mode: screen;
-    animation:
-      confeti-flotar 22s linear infinite,
-      confeti-parpadeo 2.2s ease-in-out infinite;
-  }
-  @keyframes confeti-flotar{
-    from{ background-position: 0 0, 24px 34px, 48px 12px; }
-    to{ background-position: -640px 960px, 860px -688px, -1080px 540px; }
+    animation: confeti-parpadeo 2.4s ease-in-out infinite;
+    will-change: opacity;
   }
   @keyframes confeti-parpadeo{
     0%, 100%{ opacity: 0.4; }
@@ -93,8 +85,8 @@
       radial-gradient(circle, rgba(126,200,227,0.3) 1.6px, transparent 1.8px);
     background-size: 26px 26px, 38px 38px, 50px 50px, 44px 44px;
     background-position: 0 0, 12px 16px, 6px 8px, 30px 4px;
-    mix-blend-mode: screen;
     animation: confeti-parpadeo 1.8s ease-in-out infinite alternate;
+    will-change: opacity;
   }
   .gradas::after{
     /* difumina el borde inferior de las gradas hacia el cielo */
@@ -181,10 +173,10 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%);
     opacity: 0;
-    filter: blur(2px);
     animation-name: flash-pop;
     animation-iteration-count: infinite;
     animation-timing-function: ease-out;
+    will-change: opacity, transform;
   }
   @keyframes flash-pop{
     0%, 100%{ opacity: 0; transform: scale(0.6); }
@@ -758,16 +750,12 @@
     <!-- Cancha de juego -->
     <div class="cancha"></div>
 
-    <div class="flash" style="width:260px; height:260px; top:120px; left:80px; animation-duration:5s; animation-delay:0s;"></div>
-    <div class="flash" style="width:180px; height:180px; top:300px; left:780px; animation-duration:6s; animation-delay:1.4s;"></div>
-    <div class="flash" style="width:320px; height:320px; top:900px; left:600px; animation-duration:7s; animation-delay:2.6s;"></div>
-    <div class="flash" style="width:200px; height:200px; top:1300px; left:120px; animation-duration:5.5s; animation-delay:0.8s;"></div>
-    <div class="flash" style="width:240px; height:240px; top:1650px; left:700px; animation-duration:6.5s; animation-delay:2s;"></div>
-    <div class="flash" style="width:150px; height:150px; top:60px; left:500px; animation-duration:4.5s; animation-delay:3.2s;"></div>
-    <div class="flash" style="width:200px; height:200px; top:220px; left:920px; animation-duration:5.8s; animation-delay:1.8s;"></div>
-    <div class="flash" style="width:170px; height:170px; top:520px; left:200px; animation-duration:4.8s; animation-delay:2.9s;"></div>
-    <div class="flash" style="width:280px; height:280px; top:1100px; left:850px; animation-duration:6.2s; animation-delay:0.4s;"></div>
-    <div class="flash" style="width:190px; height:190px; top:1800px; left:350px; animation-duration:5.2s; animation-delay:3.8s;"></div>
+    <div class="flash" style="width:260px; height:260px; top:120px; left:80px; animation-duration:6s; animation-delay:0s;"></div>
+    <div class="flash" style="width:180px; height:180px; top:300px; left:780px; animation-duration:7s; animation-delay:1.4s;"></div>
+    <div class="flash" style="width:320px; height:320px; top:900px; left:600px; animation-duration:8s; animation-delay:2.6s;"></div>
+    <div class="flash" style="width:200px; height:200px; top:1300px; left:120px; animation-duration:6.5s; animation-delay:0.8s;"></div>
+    <div class="flash" style="width:240px; height:240px; top:1650px; left:700px; animation-duration:7.5s; animation-delay:2s;"></div>
+    <div class="flash" style="width:150px; height:150px; top:60px; left:500px; animation-duration:5.5s; animation-delay:3.2s;"></div>
   </div>
 
   <!-- Capa de confeti (generado por JS) -->
@@ -1239,7 +1227,7 @@
   (function generarConfeti(){
     const capa = document.getElementById('confeti-capa');
     const colores = ['#00C8FF', '#FFFFFF', '#FFD700', '#7EC8E3'];
-    const total = 100;
+    const total = 40;
 
     for(let i = 0; i < total; i++){
       const pieza = document.createElement('div');
@@ -1263,4 +1251,4 @@
 </script>
 </body>
 </html>
-    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
